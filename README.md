@@ -13,6 +13,7 @@ So Geth and Erigon for now shares the same Database format and Erigon, for testi
 ## Buidling and Runling
 
 ```
+ipfs daemon
 go build
 ./verkleipfs --state-chaindata=<Erigon database location>
 ```
@@ -21,7 +22,7 @@ if you cannot specify `--state-chaindata` it will not catch up to chain tip and 
 
 ## Disclaimer
 
-This is just going to work as long as I keep my daemon running, when I stop it the implementation will stop working, However I yoloed the snapshots on Pinata so worst thing that happens it will be slow to retrieve them but still will not take 18 hours :). Also Disk Requirement are just 250 GB of disk Avaiable otherwise you wont have enough storage to store this marvelous tree.
+This is just going to work as long as I keep my daemon running, when I stop it the implementation will stop working, However I yoloed the snapshots on Pinata so worst thing that happens it will be slow to retrieve them but still will not take 18 hours :). Also Disk Requirement are just 250 GB of disk Avaiablem and 16 of RAM, otherwise you wont have enough storage to store this marvelous tree.
 
 ## Rough Benchmarks (probably not realistic but almost there)
 

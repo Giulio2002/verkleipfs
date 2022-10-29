@@ -42,6 +42,13 @@ func DoStorage(tx kv.Tx, tree *Tree, from, to uint64) error {
 			return err
 		}
 
+		if block%7000 == 0 {
+			_, err := tree.Commit()
+			if err != nil {
+				return err
+			}
+		}
+
 		storageKey := new(uint256.Int).SetBytes(dbKey[28:])
 		var storageValueFormatted []byte
 

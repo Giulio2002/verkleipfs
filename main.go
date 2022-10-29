@@ -11,14 +11,13 @@ import (
 
 	ipfssnapshot "github.com/Giulio2002/verkleipfs/ipfs-snapshot"
 	"github.com/Giulio2002/verkleipfs/verkle"
+	shell "github.com/ipfs/go-ipfs-api"
 	"github.com/ledgerwatch/erigon-lib/kv"
 	"github.com/ledgerwatch/erigon-lib/kv/mdbx"
 	"github.com/ledgerwatch/erigon/common"
 	"github.com/ledgerwatch/erigon/core/rawdb"
 	"github.com/ledgerwatch/erigon/eth/stagedsync/stages"
 	"github.com/ledgerwatch/log/v3"
-
-	shell "github.com/ipfs/go-ipfs-api"
 )
 
 const workers = 3

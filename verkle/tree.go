@@ -14,7 +14,7 @@ import (
 	"github.com/ledgerwatch/log/v3"
 )
 
-const maxInsertions = 2_000_000
+const maxInsertions = 20_000_000
 
 func int256ToVerkleFormat(x *uint256.Int, buffer []byte) {
 	bbytes := x.ToBig().Bytes()
@@ -23,28 +23,6 @@ func int256ToVerkleFormat(x *uint256.Int, buffer []byte) {
 			buffer[len(bbytes)-i-1] = b
 		}
 	}
-}
-
-func flushVerkleNode(db kv.RwTx, node verkle.VerkleNode, logInterval *time.Ticker, key []byte) error {
-	var err error
-	totalInserted := 0
-	node.(*verkle.InternalNode).Flush(func(node verkle.VerkleNode) {
-		if err != nil {
-			return
-		}
-
-		err = rawdb.WriteVerkleNode(db, node)
-		if err != nil {
-			return
-		}
-		totalInserted++
-		select {
-		case <-logInterval.C:
-			log.Info("Flushing Verkle nodes", "inserted", totalInserted, "key", common.Bytes2Hex(key))
-		default:
-		}
-	})
-	return err
 }
 
 type Tree struct {
@@ -58,6 +36,34 @@ func NewTree(db kv.RwTx, node verkle.VerkleNode) *Tree {
 		db:   db,
 		node: node,
 	}
+}
+
+func (tree *Tree) flushVerkleNode(logInterval *time.Ticker) error {
+	defer func() {
+		if err := recover(); err != nil {
+			return
+		}
+		tree.node = verkle.New()
+	}()
+	var err error
+	totalInserted := 0
+	tree.node.(*verkle.InternalNode).Flush(func(node verkle.VerkleNode) {
+		if err != nil {
+			return
+		}
+
+		err = rawdb.WriteVerkleNode(tree.db, node)
+		if err != nil {
+			return
+		}
+		totalInserted++
+		select {
+		case <-logInterval.C:
+			log.Info("Flushing Verkle nodes", "inserted", totalInserted)
+		default:
+		}
+	})
+	return err
 }
 
 func (tree *Tree) UpdateAccount(versionKey []byte, codeSize uint64, isContract bool, acc accounts.Account) error {
@@ -145,7 +151,7 @@ func (tree *Tree) DeleteAccount(versionKey []byte, isContract bool) error {
 		}
 		tree.insertions += 2
 	}
-	tree.insertions += 5
+	tree.insertions++
 	return nil
 }
 
@@ -154,7 +160,7 @@ func (tree *Tree) Insert(key, value []byte) error {
 		return tree.db.GetOne(kv.VerkleTrie, root)
 	}
 	defer tree.commitIfPossible()
-	tree.insertions++
+	tree.insertions += 3
 	return tree.node.Insert(key, value, resolverFunc)
 }
 
@@ -177,7 +183,7 @@ func (tree *Tree) Commit() (common.Hash, error) {
 	defer logInterval.Stop()
 
 	commitment := tree.node.ComputeCommitment().Bytes()
-	return common.BytesToHash(commitment[:]), flushVerkleNode(tree.db, tree.node, logInterval, nil)
+	return common.BytesToHash(commitment[:]), tree.flushVerkleNode(logInterval)
 }
 
 func (tree *Tree) commitIfPossible() {
