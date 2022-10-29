@@ -30,6 +30,6 @@ This is just going to work as long as I keep my daemon running, when I stop it t
 | Erigon Default (Regeneration) 	| 17:52 Hours                                                	|
 | Geth (Preimages)              	| 17:52 Hours (untested but likely to be on par with Erigon) 	|
 | Erigon Default (Incremental)  	| 27:32 Hours                                                	|
-| Erigon (Snapshots)            	| 4:42 Hours                                                 	|
+| Erigon (Snapshots)            	| 6:39 Hours                                                 	|
 
 This a POC developed at an Hackathon so dont expect too much if it does not work for you or whatever, please dont be mad at me :(.
