@@ -31,6 +31,11 @@ func NewIpfsSnapshotSztd(cid string, size uint64, it SnapshotIterator) *IPFSSnap
 
 func (i *IPFSSnapshotSztd) LoadFile(sh *shell.Shell, path string, id uint64, ctx context.Context) error {
 	out := fmt.Sprintf("%s%d.txt", path, id)
+	file, err := os.Create(out)
+	if err != nil {
+		return err
+	}
+	file.Close()
 	doneCh := make(chan struct{})
 
 	go func() {
@@ -55,7 +60,7 @@ func (i *IPFSSnapshotSztd) LoadFile(sh *shell.Shell, path string, id uint64, ctx
 			}
 		}
 	}()
-	err := sh.Get(i.cid, out)
+	err = sh.Get(i.cid, out)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: %s", err)
 		os.Exit(1)
