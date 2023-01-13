@@ -11,10 +11,11 @@ var MainnetVerkleUpdateRoot = common.BytesToHash(common.Hex2Bytes("048ac0e036f02
 
 func MainnetVerkleIpfsSnapshot() []*IPFSSnapshotSztd {
 	return []*IPFSSnapshotSztd{
-		NewIpfsSnapshotSztd("QmQvJKrhEXrKgvCSc7v5wX9C7EojaUk3uHKq12gEdGFvuL", DefaultSize, VerkleSnapshotIterator{}),
-		NewIpfsSnapshotSztd("QmTUL4E4sWAwWUXFFzJTQqmz667rvPgNqQipM3fRis5T2N", DefaultSize, VerkleSnapshotIterator{}),
-		NewIpfsSnapshotSztd("QmSf6zj4VH6hzZnHzbmpYt1Z2CH2hrG3nzQcFsXA29hbeR", DefaultSize, VerkleSnapshotIterator{}),
-		NewIpfsSnapshotSztd("QmPsMQqrSPCyXZSBagZjGPyi1xVLKCq4K928reG9zT1oH2", DefaultSize, VerkleSnapshotIterator{}),
+		NewIpfsSnapshotSztd("Qmb15kNqrb9nk5BMbZDUXHzDbUde13HcsmFJeMcLFcU1aw", DefaultSize, VerkleSnapshotIterator{}),
+		NewIpfsSnapshotSztd("QmcVKx3HZpMunFSyogy4vbH1jZ91xXZfBJyKUJ9sYbMAw6", DefaultSize, VerkleSnapshotIterator{}),
+		NewIpfsSnapshotSztd("QmZuqJpsu71ZqW5VVMxBJwGZPzqqV8AcNg9JW1pa3Y1wPg", DefaultSize, VerkleSnapshotIterator{}),
+		NewIpfsSnapshotSztd("QmRvpJWC4XjP7XiLYpkk1CepCVvCgis4DQmSo43Tc3oSPi", DefaultSize, VerkleSnapshotIterator{}),
+
 		NewIpfsSnapshotSztd("QmRvpJWC4XjP7XiLYpkk1CepCVvCgis4DQmSo43Tc3oSPi", DefaultSize, VerkleSnapshotIterator{}),
 		NewIpfsSnapshotSztd("Qmea37QzxcwxnM1sLkJnF5SUCC5d9njdRFmSwG8QTj7bgt", DefaultSize, VerkleSnapshotIterator{}),
 		NewIpfsSnapshotSztd("QmUdHXAkuvuLfMiTor4Ea2zNgYVxyY6FE19MAbmveHVgu4", DefaultSize, VerkleSnapshotIterator{}),

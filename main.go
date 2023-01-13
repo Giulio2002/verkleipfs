@@ -172,7 +172,7 @@ func main() {
 			if len(v) == 0 {
 				continue
 			}
-			if err := tx.Append(kv.VerkleTrie, k, v); err != nil {
+			if err := tx.Put(kv.VerkleTrie, k, v); err != nil {
 				log.Error("Error", "err", err)
 				return
 			}
